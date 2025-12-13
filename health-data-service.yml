@@ -1,0 +1,20 @@
+server:
+  port: 8082
+
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5433/healthdb
+    username: health_user
+    password: health_pass
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+  liquibase:
+    enabled: false
+
+logging:
+  level:
+    org.springframework.r2dbc: DEBUG

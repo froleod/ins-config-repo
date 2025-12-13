@@ -1,0 +1,50 @@
+server:
+  port: 8081
+  address: 0.0.0.0
+
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - JwtAuthFilter
+
+      routes:
+        - id: auth-service
+#          uri: http://auth-service:8080
+          uri: http://localhost:8080
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=0
+
+        - id: health-data-service
+#          uri: http://health-data-service:8082
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/health-data/**
+          filters:
+            - JwtAuthFilter
+            - StripPrefix=0
+
+        - id: insurance-service
+#          uri: http://insurance-service:8083
+          uri: http://localhost:8083
+          predicates:
+            - Path=/insurance/**
+          filters:
+            - JwtAuthFilter
+            - StripPrefix=0
+
+        - id: analysis-service
+#          uri: http://analysis-service:8084
+          uri: http://localhost:8084
+          predicates:
+            - Path=/analysis/**
+          filters:
+            - JwtAuthFilter
+            - StripPrefix=0
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
