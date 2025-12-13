@@ -10,16 +10,14 @@ spring:
 
       routes:
         - id: auth-service
-#          uri: http://auth-service:8080
-          uri: http://localhost:8080
+          uri: http://auth-service:8080
           predicates:
             - Path=/auth/**
           filters:
             - StripPrefix=0
 
         - id: health-data-service
-#          uri: http://health-data-service:8082
-          uri: http://localhost:8082
+          uri: http://health-data-service:8082
           predicates:
             - Path=/api/health-data/**
           filters:
@@ -27,8 +25,7 @@ spring:
             - StripPrefix=0
 
         - id: insurance-service
-#          uri: http://insurance-service:8083
-          uri: http://localhost:8083
+          uri: http://insurance-service:8083
           predicates:
             - Path=/insurance/**
           filters:
@@ -36,8 +33,7 @@ spring:
             - StripPrefix=0
 
         - id: analysis-service
-#          uri: http://analysis-service:8084
-          uri: http://localhost:8084
+          uri: http://analysis-service:8084
           predicates:
             - Path=/analysis/**
           filters:
