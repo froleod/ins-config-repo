@@ -1,0 +1,1 @@
+kubectl -n ins port-forward svc/pgadmin 5050:80

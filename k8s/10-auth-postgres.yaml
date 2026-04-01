@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: auth-pgdata
+  namespace: ins
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-postgres
+  namespace: ins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-postgres
+  template:
+    metadata:
+      labels:
+        app: auth-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - name: pg
+              containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: auth_user
+            - name: POSTGRES_PASSWORD
+              value: auth_pass
+            - name: POSTGRES_DB
+              value: authdb
+          volumeMounts:
+            - name: auth-pgdata
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: auth-pgdata
+          persistentVolumeClaim:
+            claimName: auth-pgdata
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-postgres
+  namespace: ins
+spec:
+  selector:
+    app: auth-postgres
+  ports:
+    - name: pg
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP
