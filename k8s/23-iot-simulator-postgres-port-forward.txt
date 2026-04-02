@@ -1,0 +1,1 @@
+kubectl -n ins port-forward svc/iot-simulator-postgres 5433:5432

@@ -13,6 +13,14 @@ spring:
         - JwtAuthFilter
 
       routes:
+        - id: iot-simulator-service
+          uri: http://iot-simulator-service:8085
+          predicates:
+            - Path=/iot/**
+          filters:
+            - JwtAuthFilter
+            - StripPrefix=0
+
         - id: auth-service
           uri: http://auth-service:8080
           predicates:

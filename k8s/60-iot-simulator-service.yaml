@@ -1,33 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gateway-service
+  name: iot-simulator-service
   namespace: ins
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: gateway-service
+      app: iot-simulator-service
   template:
     metadata:
       labels:
-        app: gateway-service
+        app: iot-simulator-service
     spec:
       containers:
-        - name: gateway-service
-          image: gateway-service:1.0
+        - name: iot-simulator-service
+          image: iot-simulator-service:1.0
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 8085
           env:
             - name: SPRING_APPLICATION_NAME
-              value: "gateway-service"
+              value: "iot-simulator-service"
             - name: SPRING_PROFILES_ACTIVE
               value: "k8s"
             - name: SPRING_CONFIG_IMPORT
               value: "configserver:http://config-service:8888"
-
             - name: SPRING_CLOUD_CONFIG_FAIL_FAST
               value: "true"
             - name: SPRING_CLOUD_CONFIG_RETRY_MAX_ATTEMPTS
@@ -38,13 +37,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: gateway-service
+  name: iot-simulator-service
   namespace: ins
 spec:
   selector:
-    app: gateway-service
+    app: iot-simulator-service
   ports:
     - name: http
-      port: 8080
-      targetPort: 8080
+      port: 8085
+      targetPort: 8085
   type: ClusterIP

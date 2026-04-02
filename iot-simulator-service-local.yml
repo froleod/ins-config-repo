@@ -1,0 +1,23 @@
+server:
+  port: 8085
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    url: jdbc:postgresql://localhost:25432/iot_simulator_db
+    username: iot_user
+    password: iot_pass
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+
+health-data:
+  base-url: http://localhost:8082
+
+simulator:
+  schedule:
+    min-seconds: 30
+    max-seconds: 60
+    tick-seconds: 5
