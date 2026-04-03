@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-service
+  namespace: ins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: config-service
+  template:
+    metadata:
+      labels:
+        app: config-service
+    spec:
+      containers:
+        - name: config-service
+          image: config-service:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8888
+          env:
+            - name: SERVER_PORT
+              value: "8888"
+
+            # Git backend:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "git"
+
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_URI
+              value: "https://github.com/froleod/ins-config-repo.git"
+
+            # ветка
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_DEFAULT_LABEL
+              value: "main"
+
+            # (опционально) подкаталог, если конфиги не в корне
+            # - name: SPRING_CLOUD_CONFIG_SERVER_GIT_SEARCH_PATHS
+            #   value: "configs"
+
+            # если приватный репо — берём креды из Secret
+#            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_USERNAME
+#              valueFrom:
+#                secretKeyRef:
+#                  name: config-git-creds
+#                  key: GIT_USERNAME
+#            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_TOKEN
+#              valueFrom:
+#                secretKeyRef:
+#                  name: config-git-creds
+#                  key: GIT_TOKEN
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-service
+  namespace: ins
+spec:
+  selector:
+    app: config-service
+  ports:
+    - name: http
+      port: 8888
+      targetPort: 8888
+  type: ClusterIP

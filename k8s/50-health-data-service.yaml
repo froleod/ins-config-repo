@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: health-data-service
+  namespace: ins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: health-data-service
+  template:
+    metadata:
+      labels:
+        app: health-data-service
+    spec:
+      containers:
+        - name: health-data-service
+          image: health-data-service:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: SPRING_APPLICATION_NAME
+              value: "health-data-service"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "k8s"
+            - name: SPRING_CONFIG_IMPORT
+              value: "configserver:http://config-service:8888"
+            - name: SPRING_CLOUD_CONFIG_FAIL_FAST
+              value: "true"
+            - name: SPRING_CLOUD_CONFIG_RETRY_MAX_ATTEMPTS
+              value: "20"
+            - name: SPRING_CLOUD_CONFIG_RETRY_INITIAL_INTERVAL
+              value: "1000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: health-data-service
+  namespace: ins
+spec:
+  selector:
+    app: health-data-service
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP

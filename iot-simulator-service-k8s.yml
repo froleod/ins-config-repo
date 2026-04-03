@@ -1,0 +1,22 @@
+server:
+  port: 8085
+
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://iot-simulator-postgres:5432/iot_simulator_db
+    username: iot_user
+    password: iot_pass
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+health-data:
+  base-url: http://health-data-service:8082
+
+simulator:
+  schedule:
+    min-seconds: 30
+    max-seconds: 60
+    tick-seconds: 5

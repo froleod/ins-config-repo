@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: insurance-pg-data
+  namespace: ins
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: insurance-postgres
+  namespace: ins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: insurance-postgres
+  template:
+    metadata:
+      labels:
+        app: insurance-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - name: pg
+              containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: insurancedb
+            - name: POSTGRES_USER
+              value: insurance_user
+            - name: POSTGRES_PASSWORD
+              value: insurance_pass
+          volumeMounts:
+            - name: insurance-pg-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: insurance-pg-data
+          persistentVolumeClaim:
+            claimName: insurance-pg-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: insurance-postgres
+  namespace: ins
+spec:
+  selector:
+    app: insurance-postgres
+  ports:
+    - name: pg
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP

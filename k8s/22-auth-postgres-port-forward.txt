@@ -1,0 +1,1 @@
+kubectl -n ins port-forward svc/auth-postgres 55432:5432
