@@ -1,1 +1,1 @@
-kubectl -n ins port-forward svc/health-postgres 5433:5432
+kubectl -n ins port-forward svc/health-postgres 15432:5432

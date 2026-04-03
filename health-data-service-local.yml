@@ -3,7 +3,7 @@ server:
 
 spring:
   r2dbc:
-    url: r2dbc:postgresql://localhost:5433/healthdb
+    url: r2dbc:postgresql://localhost:15432/healthdb
     username: health_user
     password: health_pass
 

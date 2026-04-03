@@ -3,8 +3,12 @@ kubectl apply -f 10-auth-postgres.yaml
 kubectl apply -f 11-redis.yaml
 kubectl apply -f 12-pgadmin.yaml
 kubectl apply -f 14-iot-simulator-postgres.yaml
+kubectl apply -f 15-insurance-postgres.yaml
 kubectl apply -f 20-health-postgres.yaml
 kubectl apply -f 30-config-service.yaml
 kubectl apply -f 40-auth-service.yaml
 kubectl apply -f 50-health-data-service.yaml
+kubectl apply -f 60-iot-simulator-service.yaml
+kubectl apply -f 70-insurance-service.yaml
+kubectl apply -f 80-frontend.yaml.yaml
 kubectl apply -f 90-gateway-service.yaml

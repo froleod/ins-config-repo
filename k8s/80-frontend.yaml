@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: ins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: insurance-frontend:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+          env:
+            # ВАЖНО: это внешний адрес gateway, доступный браузеру
+            - name: API_BASE_URL
+              value: "http://localhost:30080"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: ins
+spec:
+  selector:
+    app: frontend
+    type: NodePort
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      nodePort: 30090
+
+# Как это работает
+#  - Пользователь открывает фронт по: `http://localhost:30090`
+#  - JS в браузере читает `env.js`, где мы сгенерировали:
+#      - `API_BASE_URL=http://localhost:30080`
+#  - Все запросы к backend уходят через gateway на NodePort `30080` (как требует ТЗ: доступ к данным только по JWT через gateway) [1].
+#
+# Проверка, что env.js реально подставился
+# После деплоя фронта в k8s открой:
+#  - `http://localhost:30090/env.js`
+#
+# Должно быть что-то вроде:
+#  ```js
+#  window.__ENV__ = window.__ENV__ || {};
+#  window.__ENV__.API_BASE_URL = "http://localhost:30081";

@@ -1,0 +1,25 @@
+server:
+  port: 8083
+
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://insurance-postgres:5432/insurancedb
+    username: insurance_user
+    password: insurance_pass
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+health-data:
+  base-url: http://health-data-service:8082
+
+insurance:
+  policy:
+    base-price: 10000
+    low-risk-price: 8500
+    medium-risk-price: 10000
+    high-risk-price: 12000
+  aggregation:
+    default-limit: 20
