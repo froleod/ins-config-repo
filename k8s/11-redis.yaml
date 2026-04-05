@@ -15,6 +15,7 @@ spec:
     spec:
       containers:
         - name: redis
+          imagePullPolicy: IfNotPresent
           image: redis:7.2
           ports:
             - name: redis

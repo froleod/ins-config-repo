@@ -27,6 +27,7 @@ spec:
     spec:
       containers:
         - name: postgres
+          imagePullPolicy: IfNotPresent
           image: postgres:15
           ports:
             - name: pg
