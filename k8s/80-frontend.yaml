@@ -33,13 +33,12 @@ metadata:
 spec:
   selector:
     app: frontend
-    type: NodePort
+  type: NodePort
   ports:
     - name: http
       port: 80
       targetPort: 80
       nodePort: 30090
-
 # Как это работает
 #  - Пользователь открывает фронт по: `http://localhost:30090`
 #  - JS в браузере читает `env.js`, где мы сгенерировали:
