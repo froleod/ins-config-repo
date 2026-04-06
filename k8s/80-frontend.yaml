@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: insurance-frontend:1.0
-          imagePullPolicy: IfNotPresent
+          image: froleod/insurance-frontend:1.0
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 80

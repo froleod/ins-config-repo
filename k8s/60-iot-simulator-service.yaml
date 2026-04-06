@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: iot-simulator-service
-          image: iot-simulator-service:1.0
-          imagePullPolicy: IfNotPresent
+          image: froleod/iot-simulator-service:1.0
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8085
