@@ -52,4 +52,4 @@ spec:
 # Должно быть что-то вроде:
 #  ```js
 #  window.__ENV__ = window.__ENV__ || {};
-#  window.__ENV__.API_BASE_URL = "http://localhost:30081";
+#  window.__ENV__.API_BASE_URL = "http://localhost:30080";

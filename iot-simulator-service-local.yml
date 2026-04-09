@@ -15,8 +15,14 @@ spring:
 health-data:
   base-url: http://localhost:8082
 
-simulator:
-  schedule:
-    min-seconds: 5
-    max-seconds: 15
-    tick-seconds: 5
+schedule:
+  min-seconds: 5
+  max-seconds: 15
+  tick-seconds: 5
+
+  boost:
+    enabled: true
+    start: "19:00"
+    end: "21:00"
+    profile: "HIGH_ACTIVITY"
+    zone: "Europe/Moscow"

@@ -22,4 +22,7 @@ insurance:
     medium-risk-price: 10000
     high-risk-price: 12000
   aggregation:
-    default-limit: 20
+    period-days: 30
+  # новые границы цены после перерасчёта
+  min-renewal-price: 7000
+  max-renewal-price: 12000
